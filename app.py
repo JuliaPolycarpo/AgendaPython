@@ -15,6 +15,7 @@ def agenda():
         titulo_tarefa = request.form['titulo_tarefa']
         data_conclusao = request.form['data_conclusao']
         tarefa = Tarefa(titulo_tarefa, data_conclusao)
+        tarefa.salvar_tarefa()
     
     return render_template('agenda.html', titulo='Agenda', tarefa=tarefa)
 
