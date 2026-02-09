@@ -19,37 +19,23 @@
 body {
     background: linear-gradient(135deg, rgb(255, 224, 236), rgb(255, 193, 217));
     min-height: 100vh;
-    padding: 40px;
+    padding: 80px;
+    display: flex;          
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: rgb(20, 241, 35);
 }
 
-body.home {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-}
-
-body.home .content,
-body.home main,
-body.home section {
-    column-count: unset;
-}
-
-
-body.agenda {
-    display: block;
-    padding-left: 40px;
-}
-
-/* titulos */
+/* títulos */
 h1 {
     text-align: center;
-    margin-bottom: 30px;
     font-size: 2.5rem;
     color: rgb(14, 235, 10);
     text-shadow: 0 0 8px rgba(0, 255, 106, 0.6);
 }
 
+/* conteúdo em colunas */
 .content,
 main,
 section {
@@ -57,10 +43,13 @@ section {
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(243, 76, 184, 0.381);
-    column-count: 1;
+    column-count: 2;       /* 2 colunas para organizar o conteúdo */
     column-gap: 40px;
+    max-width: 900px;
+    width: 100%;
 }
 
+/* inputs */
 input,
 select,
 textarea {
@@ -74,16 +63,9 @@ textarea {
     color: rgb(0, 0, 0);
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: rgb(0, 255, 106);
-    box-shadow: 0 0 0 2px rgba(0, 255, 106, 0.3);
-}
-
 /* botão */
 button {
-    background-color:rgb(14, 235, 10);
+    background-color: rgb(14, 235, 10);
     color: rgb(0, 0, 0);
     border: none;
     padding: 12px 20px;
@@ -98,6 +80,7 @@ button:hover {
     box-shadow: 0 0 12px rgba(0, 255, 106, 0.6);
 }
 
+/* tabela */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -121,17 +104,20 @@ tr:hover {
     background-color: #ffe6f0;
 }
 
+/* links */
 a {
     background-color: #00ff6a;
     color: #050405;
-    padding: 18px 32px;
+    padding: 2px 8px;
     border-radius: 20px;
-    font-size: 1.4rem;
+    font-size: 0.6rem;
     box-shadow: 0 10px 25px rgba(0, 255, 106, 0.4);
     transition: 0.3s;
+    text-decoration: none;
 }
 
 a:hover {
     transform: scale(1.06);
     box-shadow: 0 0 16px rgba(0, 255, 106, 0.8);
 }
+
