@@ -43,7 +43,7 @@ section {
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(243, 76, 184, 0.381);
-    column-count: 2;       /* 2 colunas para organizar o conteúdo */
+    column-count: 1;    
     column-gap: 40px;
     max-width: 900px;
     width: 100%;
@@ -54,11 +54,12 @@ input,
 select,
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     margin-bottom: 15px;
     border-radius: 10px;
     border: 1px solid rgb(243, 165, 196);
     outline: none;
+    margin: 10px;
     font-size: 1rem;
     color: rgb(0, 0, 0);
 }
@@ -108,11 +109,12 @@ tr:hover {
 a {
     background-color: #00ff6a;
     color: #050405;
-    padding: 2px 8px;
+    padding: 3px 8px;
     border-radius: 20px;
     font-size: 0.6rem;
     box-shadow: 0 10px 25px rgba(0, 255, 106, 0.4);
     transition: 0.3s;
+    margin: 10x;
     text-decoration: none;
 }
 
