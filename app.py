@@ -1,7 +1,10 @@
 from flask import Flask, redirect, render_template, request, url_for
+from models.database import init_db
 from models.tarefa import Tarefa
 
 app = Flask(__name__)
+
+init_db()
 
 
 @app.route('/')
@@ -23,8 +26,8 @@ def agenda():
 
 @app.route('/delete/<int:idTarefa>')
 def delete(idTarefa):
-    terefa = Tarefa.id(idTarefa)
-    terefa.excluir_tarefa()
+    tarefa = Tarefa.id(idTarefa)
+    tarefa.excluir_tarefa()
     #return render_template('agenda.html', titulo='Agenda', tarefas=tarefas)
     return redirect(url_for('agenda'))
 
