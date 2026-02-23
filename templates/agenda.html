@@ -1,40 +1,146 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class= "mt-3" method="post">
-    <div class = "mt- 3">
-    <label for="titulo-tarefa" class="form-label">Título da Tarefa</label>
-    <input type="text" class="form-control" name="titulo_tarefa" id="titulo-tarefa" aria-describedby="ajudaNomeTarefa" value="{{tarefa_selecionada.titulo_tarefa if tarefa_selecionada else ''}}" required>
-    <div id="ajudaNomeTarefa" class="form-text">Use um nome de tarefa que seja descritivo.</div>
+
+<div class="agenda-container">
+
+    <!-- TÍTULO -->
+    <h1 class="titulo-agenda">Agenda</h1>
+
+    <!-- FORMULÁRIO -->
+    <form class="form-tarefa" method="post">
+
+        <div class="campo-form">
+            <label for="titulo-tarefa" class="label-tarefa">Título da Tarefa</label>
+            <input type="text" class="input-tarefa" name="titulo_tarefa" id="titulo-tarefa" value="{{ tarefa_selecionada.titulo_tarefa if tarefa_selecionada else '' }}"
+                required>
+
+        <div class="campo-form">
+            <label for="titulo-data" class="label-data">Data de Conclusão</label>
+            <input type="date" class="input-data" name="data_conclusao" value="{{ tarefa_selecionada.data_conclusao if tarefa_selecionada else '' }}">
+        </div>
+
+        <div class="acoes-form">
+            <button type="submit" class="btn-salvar">Salvar</button>
+
+            {% if tarefa_selecionada %}
+                <a href="{{ url_for('agenda') }}" class="btn-voltar">Voltar</a>
+            {% endif %}
+        </div>
+
+    </form>
+
+    <!-- LISTA TAREFAS -->
+
+    <h2 class="titulo-lista">Lista de Tarefas</h2>
+
+    {% if tarefas %}
+        <ul class="lista-tarefas">
+
+            {% for tarefa in tarefas %}
+                <li class="item-tarefa {% if tarefa.estado_tarefa %}tarefa-concluida{% endif %}">
+
+     <div class="conteudo-tarefa">
+          <!-- Botão de checklist -->
+          <a href="#"
+         data-id="{{ tarefa.id_tarefa }}"
+         class="btn-checklist {% if tarefa.estado_tarefa %}btn-reabrir{% else %}btn-concluir{% endif %}"
+         onclick="alterarEstado(event, this)">
+             {% if tarefa.estado_tarefa %}✔{% else %}☐{% endif %}
+         </a>
+
+        <!-- Título, data e info de conclusão -->
+        <div class="detalhes-tarefa">
+            <span class="titulo-tarefa">{{ tarefa.titulo_tarefa }}</span>
+            <span class="data-tarefa">{{ tarefa.data_conclusao }}</span>
+            <span class="info-conclusao">
+                 {% if tarefa.estado_tarefa %}
+                     Concluído em: {{ tarefa.concluida_em[:10] }} às {{ tarefa.concluida_em[11:16] }}
+                 {% endif %}
+                </span>
+         </div>
     </div>
 
-    <input type="date" class = "form-control" name="data_conclusao" id=" data-conclusao"
-    value=" {{tarefa_selecionada.data_conclusao if tarefa_selecionada else ''}}"
-    id="data_conclusao">
-    <button type="submit">Salvar</button>
+                    <!-- Conteúdo da tarefa 
+                    <div class="conteudo-tarefa">
+                        <span class="titulo-tarefa">
+                            {{ tarefa.titulo_tarefa }}
+                        </span>
 
-    {% if tarefa_selecionada %}
-        <a href="{{ url_for('agenda') }}" class="btn btn-secundary">Voltar</a>
+                        <span class="data-tarefa">
+                            {{ tarefa.data_conclusao }}
+                        </span>
+                    </div>-->
+
+                    <!-- Ações -->
+                    <div class="acoes-tarefa">
+                        <a href="{{ url_for('update', idTarefa=tarefa.id_tarefa) }}" 
+                           class="btn-editar">
+                            Editar
+                        </a>
+
+                        <a href="{{ url_for('delete', idTarefa=tarefa.id_tarefa) }}" 
+                           class="btn-apagar">
+                            Apagar
+                        </a>
+                    </div>
+
+                </li>
+            {% endfor %}
+
+        </ul>
+    {% else %}
+        <p class="sem-tarefas">Nenhuma tarefa cadastrada</p>
     {% endif %}
-</form>
 
-<h2>Lista de Tarefas</h2>
+</div>
 
-{% if tarefas %}
+<div>
+        <script>
+            function alterarEstado(event, elemento) {
+                event.preventDefault();
 
-    <ul>
-    {% for tarefa in tarefas %}
-        <li type="tarefas-lista">{{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao}} <a href= "{{ url_for('delete', idTarefa= tarefa.id_tarefa)}}" >Apagar</a></li>
-        <a href="{{ url_for('update', idTarefa = tarefa.id_tarefa)}}">Editar</a>
-        <!-- Controle para editar -->
-    {% endfor %}
-    </ul>
+                const id = elemento.getAttribute("data-id");
 
-{% else %}
+                fetch(`/alterar_estado/${id}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
 
-    <p>Nenhuma tarefa cadastrada</p>
+                    const li = elemento.closest(".item-tarefa");
+                    const infoSpan = li.querySelector(".info-conclusao");
 
-{% endif %}
+                    if (data.estado) {
+                        // Agora está concluída
+                        elemento.classList.remove("btn-concluir");
+                        elemento.classList.add("btn-reabrir");
+                        elemento.innerHTML = "✔";
+
+                        li.classList.add("tarefa-concluida");
+
+                        const dataFormatada = data.concluida_em.substring(0, 10);
+                        const horaFormatada = data.concluida_em.substring(11, 16);
+
+                        infoSpan.innerHTML = `Concluído em: ${dataFormatada} às ${horaFormatada}`;
+
+                    } else {
+                        // Agora está aberta
+                        elemento.classList.remove("btn-reabrir");
+                        elemento.classList.add("btn-concluir");
+                        elemento.innerHTML = "☐";
+
+                        li.classList.remove("tarefa-concluida");
+
+                        infoSpan.innerHTML = "";
+                    }
+                })
+                .catch(error => console.error("Erro:", error));
+            }
+    </script>
+</div>
 
 {% endblock %}
 

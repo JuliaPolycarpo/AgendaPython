@@ -1,125 +1,207 @@
-
-/* Reset
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Fundo rosinha */
+/* BODY */
 body {
-    background: linear-gradient(135deg, rgb(255, 224, 236), rgb(255, 193, 217));
+    background: linear-gradient(135deg, #ffd6e8, #ffb3d9);
     min-height: 100vh;
-    padding: 80px;
-    display: flex;          
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* CONTAINER */
+.agenda-container {
+    background: white; /* fundo branco */
+    width: 100%;
+    max-width: 700px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.2);
+    display: flex;
     flex-direction: column;
+}
+
+/* TITULOS */
+.titulo-agenda, .titulo-lista {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2ecc71;
+}
+.label-tarefa, .label-data {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: black;
+    row-gap: 20px;
+}
+
+/* FORM */
+.form-tarefa {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-tarefa,
+.input-data {
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #ffd1e6;
+    transition: 0.3s;
+    font-size: 1.2rem;
+    display: inline-block;
+    margin-top: 10px;
+    
+}
+
+.input-tarefa:focus,
+.input-data:focus {
+    border-color: #2ecc71;
+    outline: none;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+.btn-salvar {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    width: fit-content;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-salvar:hover {
+    background: #27ae60;
+    transform: scale(1.05);
+}
+
+/* LISTA */
+.lista-tarefas {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ITEM DE TAREFA */
+.item-tarefa {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background: #ffebf5;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.item-tarefa:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+}
+
+/* CONTEÚDO DA TAREFA */
+.conteudo-tarefa {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.detalhes-tarefa {
+    display: flex;
+    flex-direction: column;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* TÍTULO */
+.titulo-tarefa {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    display: block;
+}
+
+/* TAREFA CONCLUÍDA */
+.tarefa-concluida .titulo-tarefa {
+    text-decoration: line-through;
+    font-style: italic;
+    color: #999;
+}
+
+/* DATA E INFORMAÇÃO DE CONCLUSÃO */
+.data-tarefa {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.info-conclusao {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* CHECKLIST */
+.btn-checklist {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: rgb(20, 241, 35);
-}
-
-/* títulos */
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: rgb(14, 235, 10);
-    text-shadow: 0 0 8px rgba(0, 255, 106, 0.6);
-}
-
-/* conteúdo em colunas */
-.content,
-main,
-section {
-    background-color: rgb(255, 255, 255);
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(243, 76, 184, 0.381);
-    column-count: 1;    
-    column-gap: 40px;
-    max-width: 900px;
-    width: 100%;
-}
-
-/* inputs */
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid rgb(243, 165, 196);
-    outline: none;
-    margin: 10px;
-    font-size: 1rem;
-    color: rgb(0, 0, 0);
-}
-
-/* botão */
-button {
-    background-color: rgb(14, 235, 10);
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(0, 255, 106, 0.6);
-}
-
-/* tabela */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-    break-inside: avoid;
-}
-
-th {
-    background-color: #ff8fc4;
-    color: #0a0a0a;
-    padding: 12px;
-    text-align: left;
-}
-
-td {
-    padding: 12px;
-    border-bottom: 1px solid #f3a5c4;
-}
-
-tr:hover {
-    background-color: #ffe6f0;
-}
-
-/* links */
-a {
-    background-color: #00ff6a;
-    color: #050405;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 0.6rem;
-    box-shadow: 0 10px 25px rgba(0, 255, 106, 0.4);
-    transition: 0.3s;
-    margin: 10x;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 8px;
+    color: white;
     text-decoration: none;
+    transition: 0.2s ease;
 }
 
-a:hover {
-    transform: scale(1.06);
-    box-shadow: 0 0 16px rgba(0, 255, 106, 0.8);
+/* Botões de checklist */
+.btn-concluir { background-color: #28a745; }
+.btn-concluir:hover { background-color: #218838; }
+
+.btn-reabrir { background-color: #dc3545; }
+.btn-reabrir:hover { background-color: #c82333; }
+
+/* AÇÕES */
+.acoes-tarefa {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-editar,
+.btn-apagar {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+
+}
+
+.btn-editar {
+    background: #e84393;
+    color: white;
+}
+.btn-editar:hover { background: #b53a76; }
+
+.btn-apagar {
+    background: #d63031;
+    color: white;
+}
+.btn-apagar:hover { background: #b52929; }
+
+/* CAMPO SEM TAREFAS */
+.sem-tarefas {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 20px;
 }
 

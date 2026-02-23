@@ -1,11 +1,17 @@
+# Ambientes virtuais
+venv/
 .venv/
+env/
 
+# Cache do Python
 __pycache__/
-*.pyc
+*.py[cod]
 
-data/
+# Banco de dados local (para não enviar seus testes para o GitHub)
+instance/
 *.db
-*.sqlite
-*.sqlite3
 
-.env
+# Arquivos de sistema e IDE
+.vscode/
+.idea/
+.DS_Store

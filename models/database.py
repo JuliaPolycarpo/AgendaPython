@@ -3,13 +3,12 @@ import traceback
 from types import TracebackType
 from typing import Any, Self, Optional, Type
 from dotenv import load_dotenv
-import traceback
 import os
 from itsdangerous import exc
 
 
 load_dotenv() #Procura um arquivo .env com variáveis
-DB_PATH = os.getenv('DATABASE', './data/tarefas.sqlite3')
+DB_PATH = os.getenv('DATABASE', './data/tarefas.db')
 
 def init_db(db_name: str = DB_PATH) -> None:
     with connect(db_name) as conn:
@@ -17,7 +16,9 @@ def init_db(db_name: str = DB_PATH) -> None:
          CREATE TABLE IF NOT EXISTS tarefas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo_tarefa TEXT NOT NULL,
-             data_conclusao TEXT);
+            data_conclusao TEXT,
+            estado_tarefa BOOLEAN NOT NULL DEFAULT 0,
+            concluida_em TEXT);
         ''')
 
 class Database:
