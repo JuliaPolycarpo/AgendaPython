@@ -67,16 +67,28 @@ def update(idTarefa):
         tarefa_selecionada=tarefa_selecionada
     )
 
+# @app.route("/alterar_estado/<int:idTarefa>", methods=["POST"])
+#def alterar_estado(idTarefa):
+    #tarefa = Tarefa.buscar_por_id(idTarefa)
+
+    #if not tarefa:
+      #  return jsonify({"erro": "Tarefa não encontrada"}), 404
+
+    #tarefa.alterar_estado()
+
+   ## return jsonify({
+       # "estado": tarefa.estado_tarefa,
+       # "concluida_em": tarefa.concluida_em
+    #})
+
 @app.route("/alterar_estado/<int:idTarefa>", methods=["POST"])
 def alterar_estado(idTarefa):
+
     tarefa = Tarefa.buscar_por_id(idTarefa)
 
     if not tarefa:
-        return jsonify({"erro": "Tarefa não encontrada"}), 404
+        return redirect(url_for("agenda"))
 
     tarefa.alterar_estado()
 
-    return jsonify({
-        "estado": tarefa.estado_tarefa,
-        "concluida_em": tarefa.concluida_em
-    })
+    return redirect(url_for("agenda"))
