@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for, jsonify, flash
+from flask import Flask, redirect, render_template, request, url_for, flash
 from models.database import init_db
 from models.tarefa import Tarefa
 import os
@@ -8,21 +8,21 @@ app = Flask(__name__)
 init_db()
 app.secret_key = os.environ.get("SECRET_KEY", "uma_chave_padrao_para_dev")
 
-# Rota principal (não existe mais "home")
-@app.route("/", methods=['GET', 'POST'])
+
+@app.route("/", methods=["GET", "POST"])
 def agenda():
 
-    if request.method == 'POST':
-        titulo_tarefa = request.form['titulo_tarefa']
-        data_conclusao = request.form['data_conclusao']
+    if request.method == "POST":
+        titulo_tarefa = request.form["titulo_tarefa"]
+        data_conclusao = request.form["data_conclusao"]
 
         tarefa = Tarefa(titulo_tarefa, data_conclusao)
         tarefa.salvar_tarefa()
 
-        return redirect(url_for('agenda'))
+        return redirect(url_for("agenda"))
 
     tarefas = Tarefa.obter_tarefas()
-    return render_template('agenda.html', titulo='Agenda', tarefas=tarefas)
+    return render_template("agenda.html", titulo="Agenda", tarefas=tarefas)
 
 
 @app.route("/delete/<int:idTarefa>")
@@ -34,7 +34,6 @@ def delete(idTarefa):
         flash("Tarefa não encontrada.")
         return redirect(url_for("agenda"))
 
-    # REGRA DE NEGÓCIO RN01
     if tarefa.estado_tarefa:
         flash("Não é possível excluir uma tarefa concluída. Reabra antes.")
         return redirect(url_for("agenda"))
@@ -45,41 +44,28 @@ def delete(idTarefa):
     return redirect(url_for("agenda"))
 
 
-@app.route('/update/<int:idTarefa>', methods=['GET', 'POST'])
+@app.route("/update/<int:idTarefa>", methods=["GET", "POST"])
 def update(idTarefa):
 
-    if request.method == 'POST':
-        titulo = request.form['titulo_tarefa']
-        data = request.form['data_conclusao']
+    if request.method == "POST":
+        titulo = request.form["titulo_tarefa"]
+        data = request.form["data_conclusao"]
 
         tarefa = Tarefa(titulo, data, id_tarefa=idTarefa)
         tarefa.atualizar_tarefa()
 
-        return redirect(url_for('agenda'))
+        return redirect(url_for("agenda"))
 
     tarefas = Tarefa.obter_tarefas()
     tarefa_selecionada = Tarefa.buscar_por_id(idTarefa)
 
     return render_template(
-        'agenda.html',
-        titulo=f'Editando a tarefa ID: {idTarefa}',
+        "agenda.html",
+        titulo=f"Editando a tarefa ID: {idTarefa}",
         tarefas=tarefas,
-        tarefa_selecionada=tarefa_selecionada
+        tarefa_selecionada=tarefa_selecionada,
     )
 
-# @app.route("/alterar_estado/<int:idTarefa>", methods=["POST"])
-#def alterar_estado(idTarefa):
-    #tarefa = Tarefa.buscar_por_id(idTarefa)
-
-    #if not tarefa:
-      #  return jsonify({"erro": "Tarefa não encontrada"}), 404
-
-    #tarefa.alterar_estado()
-
-   ## return jsonify({
-       # "estado": tarefa.estado_tarefa,
-       # "concluida_em": tarefa.concluida_em
-    #})
 
 @app.route("/alterar_estado/<int:idTarefa>", methods=["POST"])
 def alterar_estado(idTarefa):
